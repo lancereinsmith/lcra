@@ -77,6 +77,23 @@ You can extract and print LCRA data directly using the CLI:
   ```
 - You can combine flags to extract multiple data types at once.
 
+#### Save Output to a JSON File
+
+You can save the result to a file in the `reports/` folder:
+
+- **Auto-named (timestamped) file:**
+  ```bash
+  python main.py get --report --save
+  # -> reports/report_2024-06-07T12-34-56.json
+  ```
+- **Custom filename:**
+  ```bash
+  python main.py get --report --saveas my_report
+  # -> reports/my_report.json
+  ```
+
+Use `--save` for an auto-generated timestamped filename, or `--saveas <filename>` to specify a custom filename.
+
 ---
 
 ## API Endpoints
