@@ -1,0 +1,20 @@
+[project]
+name = "lcra"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "httpx",
+    "beautifulsoup4",
+    "lxml",
+    "pydantic",
+    "python-dateutil",
+    "click",
+    "rich",
+]
+
+[tool.uv]
+dev-dependencies = []
