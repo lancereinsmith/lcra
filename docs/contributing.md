@@ -7,7 +7,7 @@ Thank you for your interest in contributing to the LCRA Flood Status API!
 1. Fork and clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/lcra.git
+git clone https://github.com/lancereinsmith/lcra.git
 cd lcra
 ```
 

@@ -22,7 +22,7 @@ uv pip install lcra
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/lcra.git
+git clone https://github.com/lancereinsmith/lcra.git
 cd lcra
 ```
 

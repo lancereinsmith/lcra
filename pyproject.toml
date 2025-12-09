@@ -30,6 +30,13 @@ dependencies = [
     "rich>=13.0.0",
 ]
 
+[project.urls]
+Homepage = "https://github.com/lancereinsmith/lcra"
+Documentation = "https://lancereinsmith.github.io/lcra"
+Repository = "https://github.com/lancereinsmith/lcra"
+Issues = "https://github.com/lancereinsmith/lcra/issues"
+Changelog = "https://github.com/lancereinsmith/lcra/blob/main/CHANGELOG.md"
+
 [project.scripts]
 lcra = "main:cli"
 

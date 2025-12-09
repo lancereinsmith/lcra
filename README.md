@@ -37,7 +37,7 @@ uv pip install lcra
 ### From Source
 
 ```bash
-git clone https://github.com/yourusername/lcra.git
+git clone https://github.com/lancereinsmith/lcra.git
 cd lcra
 uv sync  # or: pip install -e .
 ```
@@ -179,7 +179,7 @@ Visit `http://localhost:8080/docs` for interactive API documentation.
 
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/lcra.git
+git clone https://github.com/lancereinsmith/lcra.git
 cd lcra
 
 # Install with dev dependencies
@@ -257,7 +257,7 @@ Contributions are welcome! Please see [CONTRIBUTING.md](docs/contributing.md) fo
 
 ## Documentation
 
-Full documentation is available at: <https://yourusername.github.io/lcra/>
+Full documentation is available at: <https://lancereinsmith.github.io/lcra/>
 
 Or build locally:
 
