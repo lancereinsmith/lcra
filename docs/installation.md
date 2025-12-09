@@ -45,7 +45,7 @@ pip install -e .
 For development, install with dev dependencies:
 
 ```bash
-uv sync --dev
+uv sync --group dev
 ```
 
 Or:

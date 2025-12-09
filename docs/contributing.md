@@ -14,7 +14,7 @@ cd lcra
 1. Install development dependencies:
 
 ```bash
-uv sync --dev
+uv sync --group dev
 ```
 
 1. Run tests:

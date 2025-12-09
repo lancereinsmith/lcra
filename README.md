@@ -183,7 +183,7 @@ git clone https://github.com/yourusername/lcra.git
 cd lcra
 
 # Install with dev dependencies
-uv sync --dev
+uv sync --group dev
 ```
 
 ### Running Tests
