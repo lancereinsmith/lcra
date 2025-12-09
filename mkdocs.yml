@@ -1,6 +1,7 @@
 site_name: LCRA Flood Status API
 site_description: Python library and CLI for extracting LCRA Hydromet data
 site_author: LCRA Contributors
+site_url: https://lancereinsmith.github.io/lcra/
 repo_url: https://github.com/lancereinsmith/lcra
 repo_name: lcra
 
