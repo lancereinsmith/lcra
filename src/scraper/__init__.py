@@ -7,7 +7,6 @@ This module contains the LCRAFloodDataScraper class for extracting data from the
 import logging
 import re
 from datetime import datetime
-from typing import Optional
 
 import httpx
 from fastapi import HTTPException
@@ -127,7 +126,7 @@ class LCRAFloodDataScraper:
             logger.error(f"Error fetching floodgate operations: {e}", exc_info=True)
             return []
 
-    async def get_narrative_summary(self) -> tuple[Optional[datetime], Optional[str]]:
+    async def get_narrative_summary(self) -> tuple[datetime | None, str | None]:
         """Get narrative summary and last update time"""
         try:
             data = await self.fetch_api_data("FloodStatus/GetNarrativeSummary")
@@ -142,7 +141,7 @@ class LCRAFloodDataScraper:
             return None, None
 
     @staticmethod
-    def parse_datetime(text: Optional[str]) -> Optional[datetime]:
+    def parse_datetime(text: str | None) -> datetime | None:
         """Parse various datetime formats found on the site"""
         if not text or (isinstance(text, str) and (text.strip() == "" or text == "/")):
             return None
@@ -194,7 +193,7 @@ class LCRAFloodDataScraper:
         return None
 
     @staticmethod
-    def parse_float(text: Optional[str]) -> Optional[float]:
+    def parse_float(text: str | None) -> float | None:
         """Parse float values from text, handling various formats"""
         if not text or text in ["/", "N/A", "n/a", "--", None]:
             return None
