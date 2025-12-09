@@ -34,7 +34,7 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
-          paths: [.]
+          paths: [src]
           options:
             docstring_style: google
             show_source: true
@@ -52,6 +52,7 @@ nav:
     - Models: api/models.md
     - API Routes: api/routes.md
   - Contributing: contributing.md
+  - Changelog: changelog.md
 
 markdown_extensions:
   - pymdownx.highlight:

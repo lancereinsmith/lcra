@@ -1,3 +1,9 @@
+"""
+LCRA Flood Status CLI
+
+Command-line interface for extracting LCRA flood status data.
+"""
+
 import asyncio
 import json
 import os

@@ -2,7 +2,7 @@
 
 A Python library and CLI tool for extracting real-time flood status, lake levels, river conditions, and floodgate operations from the Lower Colorado River Authority (LCRA) Hydromet system.
 
-[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Overview
@@ -44,7 +44,7 @@ uv sync  # or: pip install -e .
 
 ## Requirements
 
-- Python 3.9 or higher
+- Python 3.10 or higher
 - [uv](https://github.com/astral-sh/uv) (recommended) or pip
 
 ---
@@ -222,17 +222,18 @@ mkdocs build  # Build static site
 
 ```text
 lcra/
-├── main.py              # CLI entrypoint
-├── api/                 # FastAPI application
-│   └── __init__.py
-├── scraper/             # LCRA data scraper
-│   └── __init__.py
-├── lcra/                # Data models
-│   └── __init__.py
+├── src/
+│   ├── api/             # FastAPI application
+│   │   └── __init__.py
+│   ├── scraper/         # LCRA data scraper
+│   │   └── __init__.py
+│   └── lcra/            # Data models and CLI
+│       ├── __init__.py
+│       └── cli.py       # CLI entrypoint
 ├── tests/               # Test suite
 ├── docs/                # Documentation
 ├── pyproject.toml       # Project configuration
-└── README.md           # This file
+└── README.md            # This file
 ```
 
 ## Data Sources
@@ -247,7 +248,7 @@ This library accesses data from the [LCRA Hydromet system](https://hydromet.lcra
 ## Troubleshooting
 
 - **No Data Returned**: Ensure the LCRA website and APIs are accessible from your network. The `/health` endpoint will indicate if the upstream API is reachable.
-- **Dependency Issues**: Make sure you have run `uv sync` and are using Python 3.9 or higher.
+- **Dependency Issues**: Make sure you have run `uv sync` and are using Python 3.10 or higher.
 - **Port Conflicts**: If port 8080 is in use, specify another port with `--port <number>`.
 - **Import Errors**: Ensure the package is installed: `pip install lcra` or `uv pip install lcra`
 

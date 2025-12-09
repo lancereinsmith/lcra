@@ -2,7 +2,7 @@
 
 ## Requirements
 
-- Python 3.9 or higher
+- Python 3.10 or higher
 - [uv](https://github.com/astral-sh/uv) (recommended) or pip
 
 ## Install from PyPI
@@ -16,6 +16,16 @@ Or using `uv`:
 ```bash
 uv pip install lcra
 ```
+
+## Install as a CLI Tool
+
+To install as a standalone CLI tool (recommended for command-line usage):
+
+```bash
+uv tool install lcra
+```
+
+This installs the `lcra` command globally without affecting your project's dependencies.
 
 ## Install from Source
 

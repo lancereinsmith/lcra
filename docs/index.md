@@ -69,10 +69,11 @@ This library accesses data from the [LCRA Hydromet system](https://hydromet.lcra
 
 ```text
 lcra/
-├── main.py          # CLI entrypoint
-├── api/             # FastAPI application
-├── scraper/         # LCRA data scraper
-├── lcra/            # Data models
+├── src/
+│   ├── api/         # FastAPI application
+│   ├── scraper/     # LCRA data scraper
+│   └── lcra/        # Data models and CLI
+├── tests/           # Test suite
 └── docs/            # Documentation
 ```
 
