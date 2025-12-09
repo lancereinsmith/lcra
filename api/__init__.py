@@ -5,7 +5,6 @@ This module defines the FastAPI app and all route handlers for the LCRA Flood St
 """
 
 from datetime import datetime
-from typing import List
 
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
@@ -50,21 +49,21 @@ async def get_complete_flood_report():
         return await scraper.scrape_all_data()
 
 
-@app.get("/lake-levels", response_model=List[LakeLevel])
+@app.get("/lake-levels", response_model=list[LakeLevel])
 async def get_lake_levels():
     """Get current lake levels at dams"""
     async with LCRAFloodDataScraper() as scraper:
         return await scraper.scrape_lake_levels()
 
 
-@app.get("/river-conditions", response_model=List[RiverCondition])
+@app.get("/river-conditions", response_model=list[RiverCondition])
 async def get_river_conditions():
     """Get current river conditions"""
     async with LCRAFloodDataScraper() as scraper:
         return await scraper.scrape_river_conditions()
 
 
-@app.get("/floodgate-operations", response_model=List[FloodgateOperation])
+@app.get("/floodgate-operations", response_model=list[FloodgateOperation])
 async def get_floodgate_operations():
     """Get floodgate operations data"""
     async with LCRAFloodDataScraper() as scraper:

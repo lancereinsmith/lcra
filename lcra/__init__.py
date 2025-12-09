@@ -6,7 +6,7 @@ This module contains all Pydantic models and data structures for the LCRA Flood 
 
 from datetime import datetime
 from enum import Enum
-from typing import List, Optional
+from typing import Optional
 
 from pydantic import BaseModel, Field
 
@@ -39,15 +39,9 @@ class LakeLevel(BaseModel):
     """Model for current lake level data at dams"""
 
     dam_lake_name: str = Field(..., description="Name of the dam or lake")
-    measurement_time: Optional[datetime] = Field(
-        None, description="Time of measurement"
-    )
-    head_elevation: Optional[float] = Field(
-        None, description="Head elevation above dam (feet)"
-    )
-    tail_elevation: Optional[float] = Field(
-        None, description="Tail elevation below dam (feet)"
-    )
+    measurement_time: Optional[datetime] = Field(None, description="Time of measurement")
+    head_elevation: Optional[float] = Field(None, description="Head elevation above dam (feet)")
+    tail_elevation: Optional[float] = Field(None, description="Tail elevation below dam (feet)")
     gate_operations: Optional[str] = Field(
         None, description="Current gate operations or spillway status"
     )
@@ -56,7 +50,7 @@ class LakeLevel(BaseModel):
         json_schema_extra = {
             "example": {
                 "dam_lake_name": "Lake Travis at Mansfield Dam",
-                "measurement_time": "2024-01-15T10:30:00",
+                "measurement_time": "2025-01-15T10:30:00",
                 "head_elevation": 681.5,
                 "tail_elevation": 515.2,
                 "gate_operations": "Closed",
@@ -68,18 +62,12 @@ class RiverCondition(BaseModel):
     """Model for river level conditions"""
 
     location: str = Field(..., description="River gauge location")
-    current_stage: Optional[float] = Field(
-        None, description="Current river stage (feet)"
-    )
+    current_stage: Optional[float] = Field(None, description="Current river stage (feet)")
     current_flow: Optional[float] = Field(None, description="Current flow rate (cfs)")
-    bankfull_stage: Optional[float] = Field(
-        None, description="Bankfull stage level (feet)"
-    )
+    bankfull_stage: Optional[float] = Field(None, description="Bankfull stage level (feet)")
     flood_stage: Optional[float] = Field(None, description="Flood stage level (feet)")
     action_stage: Optional[float] = Field(None, description="Action stage level (feet)")
-    measurement_time: Optional[datetime] = Field(
-        None, description="Time of measurement"
-    )
+    measurement_time: Optional[datetime] = Field(None, description="Time of measurement")
     data_source: Optional[DataSource] = Field(None, description="Source of the data")
 
     class Config:
@@ -91,7 +79,7 @@ class RiverCondition(BaseModel):
                 "bankfull_stage": 21.0,
                 "flood_stage": 22.0,
                 "action_stage": 20.0,
-                "measurement_time": "2024-01-15T10:30:00",
+                "measurement_time": "2025-01-15T10:30:00",
                 "data_source": "USGS",
             }
         }
@@ -105,9 +93,7 @@ class RiverForecast(BaseModel):
     forecast_flow: Optional[float] = Field(None, description="Forecasted flow (cfs)")
     forecast_time: Optional[datetime] = Field(None, description="Time of forecast")
     valid_time: Optional[datetime] = Field(None, description="Valid time for forecast")
-    issued_by: Optional[DataSource] = Field(
-        None, description="Agency that issued forecast"
-    )
+    issued_by: Optional[DataSource] = Field(None, description="Agency that issued forecast")
 
     class Config:
         json_schema_extra = {
@@ -115,8 +101,8 @@ class RiverForecast(BaseModel):
                 "location": "Colorado River at Austin",
                 "forecast_stage": 4.8,
                 "forecast_flow": 1400.0,
-                "forecast_time": "2024-01-15T12:00:00",
-                "valid_time": "2024-01-16T06:00:00",
+                "forecast_time": "2025-01-15T12:00:00",
+                "valid_time": "2025-01-16T06:00:00",
                 "issued_by": "NWS",
             }
         }
@@ -135,7 +121,7 @@ class HistoricalLakeData(BaseModel):
         json_schema_extra = {
             "example": {
                 "lake_name": "Lake Travis",
-                "timestamp": "2024-01-15T10:30:00",
+                "timestamp": "2025-01-15T10:30:00",
                 "elevation": 681.5,
                 "discharge": 1200.0,
                 "storage": 1142000.0,
@@ -150,9 +136,7 @@ class FloodgateOperation(BaseModel):
     last_update: Optional[datetime] = Field(None, description="Last update time")
     inflows: Optional[float] = Field(None, description="Current inflows (cfs)")
     gate_operations: Optional[str] = Field(None, description="Current gate operations")
-    lake_level_forecast: Optional[str] = Field(
-        None, description="Lake level forecast description"
-    )
+    lake_level_forecast: Optional[str] = Field(None, description="Lake level forecast description")
     current_elevation: Optional[float] = Field(
         None, description="Current lake elevation (feet msl)"
     )
@@ -161,7 +145,7 @@ class FloodgateOperation(BaseModel):
         json_schema_extra = {
             "example": {
                 "dam_name": "Mansfield Dam",
-                "last_update": "2024-01-15T10:30:00",
+                "last_update": "2025-01-15T10:30:00",
                 "inflows": 850.0,
                 "gate_operations": "All gates closed",
                 "lake_level_forecast": "Lake level expected to remain stable",
@@ -175,15 +159,13 @@ class FloodOperationsReport(BaseModel):
 
     report_time: datetime = Field(..., description="Time the report was generated")
     last_update: Optional[datetime] = Field(None, description="Last data update time")
-    lake_levels: List[LakeLevel] = Field(
-        default_factory=list, description="Current lake levels"
-    )
-    river_conditions: List[RiverCondition] = Field(
+    lake_levels: list[LakeLevel] = Field(default_factory=list, description="Current lake levels")
+    river_conditions: list[RiverCondition] = Field(
         default_factory=list, description="Current river conditions"
     )
-    river_forecasts: List[RiverForecast] = Field(
+    river_forecasts: list[RiverForecast] = Field(
         default_factory=list, description="River forecasts"
     )
-    floodgate_operations: List[FloodgateOperation] = Field(
+    floodgate_operations: list[FloodgateOperation] = Field(
         default_factory=list, description="Floodgate operations"
     )

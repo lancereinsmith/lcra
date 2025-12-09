@@ -1,102 +1,149 @@
-# LCRA Flood Status Web Data Extractor API
+# LCRA Flood Status API
 
-A robust FastAPI-based service for extracting real-time flood status, lake levels, river conditions, and floodgate operations from the Lower Colorado River Authority (LCRA) Hydromet system.
+A Python library and CLI tool for extracting real-time flood status, lake levels, river conditions, and floodgate operations from the Lower Colorado River Authority (LCRA) Hydromet system.
 
----
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Overview
 
-This project provides a RESTful API to access current flood status, lake levels, river conditions, and floodgate operations for the Lower Colorado River basin in Texas. It fetches data directly from LCRA's public APIs, structures it with Pydantic models, and exposes it via a modern, documented FastAPI interface.
-
----
+This project provides both a command-line interface and a RESTful API to access current flood status, lake levels, river conditions, and floodgate operations for the Lower Colorado River basin in Texas. It fetches data directly from LCRA's public APIs, structures it with Pydantic models, and exposes it via a modern, documented FastAPI interface.
 
 ## Features
 
-- **Real-time Data**: Fetches up-to-date information from LCRA's official APIs.
-- **Structured Models**: Uses Pydantic for data validation and serialization.
-- **Multiple Endpoints**: Access lake levels, river conditions, floodgate operations, and a complete flood report.
-- **Async & Fast**: Built with FastAPI and httpx for high performance.
-- **Interactive Docs**: Swagger UI available at `/docs`.
-- **Health Check**: `/health` endpoint to verify service and LCRA API availability.
+- **Real-time Data**: Fetches up-to-date information from LCRA's official APIs
+- **Structured Models**: Uses Pydantic for data validation and serialization
+- **Multiple Endpoints**: Access lake levels, river conditions, floodgate operations, and complete flood reports
+- **CLI Tool**: Command-line interface for quick data extraction
+- **REST API**: FastAPI-based service with interactive documentation
+- **Async & Fast**: Built with FastAPI and httpx for high performance
+- **Type Safe**: Full type hints and Pydantic models
+- **Well Tested**: Comprehensive test suite with pytest
 
----
+## Installation
+
+### From PyPI
+
+```bash
+pip install lcra
+```
+
+Or using `uv`:
+
+```bash
+uv pip install lcra
+```
+
+### From Source
+
+```bash
+git clone https://github.com/yourusername/lcra.git
+cd lcra
+uv sync  # or: pip install -e .
+```
 
 ## Requirements
 
-- Python 3.9+
-- [uv](https://github.com/astral-sh/uv) (for dependency management)
+- Python 3.9 or higher
+- [uv](https://github.com/astral-sh/uv) (recommended) or pip
 
 ---
 
-## Setup & Installation
+## Quick Start
 
-1. **Clone the repository**
-   ```bash
-   git clone <your-repo-url>
-   cd lcra
-   ```
+### CLI Usage
 
-2. **Install dependencies**
-   ```bash
-   uv sync
-   ```
+Extract flood operations report:
 
----
+```bash
+lcra get --report
+```
+
+Get lake levels:
+
+```bash
+lcra get --lake-levels
+```
+
+Save to file:
+
+```bash
+lcra get --report --save
+```
+
+### API Server
+
+Start the API server:
+
+```bash
+lcra serve
+```
+
+Then visit `http://localhost:8080/docs` for interactive API documentation.
 
 ## Usage
 
-### Start the API Server
+### Command Line Interface
 
-You can serve the API using the new CLI entrypoint:
+The CLI provides several commands for extracting LCRA data:
+
+#### Get Data
 
 ```bash
-python main.py serve --host 0.0.0.0 --port 8080
+# Full flood operations report
+lcra get --report
+
+# Lake levels only
+lcra get --lake-levels
+
+# River conditions only
+lcra get --river-conditions
+
+# Floodgate operations only
+lcra get --floodgate-operations
 ```
-- The server will start on `http://localhost:8080/` by default.
-- Swagger UI is available at [http://localhost:8080/docs](http://localhost:8080/docs)
 
-### Extract LCRA Data from the Command Line
+#### Save Output
 
-You can extract and print LCRA data directly using the CLI:
+```bash
+# Auto-named timestamped file
+lcra get --report --save
+# Creates: reports/report_2025-01-15T10-30-45.json
 
-- **Full Flood Operations Report:**
-  ```bash
-  python main.py get --report
-  ```
-- **Lake Levels:**
-  ```bash
-  python main.py get --lake-levels
-  ```
-- **River Conditions:**
-  ```bash
-  python main.py get --river-conditions
-  ```
-- **Floodgate Operations:**
-  ```bash
-  python main.py get --floodgate-operations
-  ```
-- You can combine flags to extract multiple data types at once.
+# Custom filename
+lcra get --report --saveas my_report
+# Creates: reports/my_report.json
+```
 
-#### Save Output to a JSON File
+#### Start API Server
 
-You can save the result to a file in the `reports/` folder:
+```bash
+# Default (localhost:8080)
+lcra serve
 
-- **Auto-named (timestamped) file:**
-  ```bash
-  python main.py get --report --save
-  # -> reports/report_2024-06-07T12-34-56.json
-  ```
-- **Custom filename:**
-  ```bash
-  python main.py get --report --saveas my_report
-  # -> reports/my_report.json
-  ```
+# Custom host and port
+lcra serve --host 0.0.0.0 --port 9000
+```
 
-Use `--save` for an auto-generated timestamped filename, or `--saveas <filename>` to specify a custom filename.
+### Python API
+
+```python
+from scraper import LCRAFloodDataScraper
+from lcra import FloodOperationsReport
+
+async with LCRAFloodDataScraper() as scraper:
+    # Get complete report
+    report: FloodOperationsReport = await scraper.scrape_all_data()
+
+    # Get specific data
+    lake_levels = await scraper.scrape_lake_levels()
+    river_conditions = await scraper.scrape_river_conditions()
+    floodgate_operations = await scraper.scrape_floodgate_operations()
+```
 
 ---
 
-## API Endpoints
+## REST API Endpoints
 
 | Endpoint                  | Method | Description                                 |
 |--------------------------|--------|---------------------------------------------|
@@ -107,73 +154,123 @@ Use `--save` for an auto-generated timestamped filename, or `--saveas <filename>
 | `/river-conditions`      | GET    | Current river conditions                    |
 | `/floodgate-operations`  | GET    | Current floodgate operations                |
 | `/docs`                  | GET    | Swagger UI (interactive API docs)           |
+| `/redoc`                 | GET    | ReDoc (alternative API docs)                |
 
----
+### Example API Usage
 
-## Example API Usage
-
-### Get Complete Flood Report
 ```bash
+# Get complete flood report
 curl http://localhost:8080/flood-report
-```
 
-### Get Lake Levels
-```bash
+# Get lake levels
 curl http://localhost:8080/lake-levels
-```
 
-### Get River Conditions
-```bash
-curl http://localhost:8080/river-conditions
-```
-
-### Health Check
-```bash
+# Health check
 curl http://localhost:8080/health
 ```
 
-### Interactive API Docs
-Open [http://localhost:8080/docs](http://localhost:8080/docs) in your browser.
+Visit `http://localhost:8080/docs` for interactive API documentation.
 
 ---
+
+## Development
+
+### Setup
+
+```bash
+# Clone repository
+git clone https://github.com/yourusername/lcra.git
+cd lcra
+
+# Install with dev dependencies
+uv sync --dev
+```
+
+### Running Tests
+
+```bash
+pytest
+```
+
+With coverage:
+
+```bash
+pytest --cov
+```
+
+### Code Quality
+
+```bash
+# Format code
+black .
+
+# Lint code
+ruff check .
+
+# Type check
+mypy .
+```
+
+### Building Documentation
+
+```bash
+mkdocs serve  # Local development
+mkdocs build  # Build static site
+```
+
+## Project Structure
+
+```text
+lcra/
+├── main.py              # CLI entrypoint
+├── api/                 # FastAPI application
+│   └── __init__.py
+├── scraper/             # LCRA data scraper
+│   └── __init__.py
+├── lcra/                # Data models
+│   └── __init__.py
+├── tests/               # Test suite
+├── docs/                # Documentation
+├── pyproject.toml       # Project configuration
+└── README.md           # This file
+```
+
+## Data Sources
+
+This library accesses data from the [LCRA Hydromet system](https://hydromet.lcra.org/), which provides:
+
+- **Lake Levels**: Current elevations at major dams (Buchanan, Inks, LBJ, Marble Falls, Travis, Austin, Bastrop)
+- **River Conditions**: Stage, flow, and flood status at various gauge locations
+- **Floodgate Operations**: Current and forecasted floodgate operations
+- **Narrative Summaries**: Text summaries of current flood conditions
 
 ## Troubleshooting
 
 - **No Data Returned**: Ensure the LCRA website and APIs are accessible from your network. The `/health` endpoint will indicate if the upstream API is reachable.
-- **Dependency Issues**: Make sure you have run `uv sync` and are using the correct Python version.
+- **Dependency Issues**: Make sure you have run `uv sync` and are using Python 3.9 or higher.
 - **Port Conflicts**: If port 8080 is in use, specify another port with `--port <number>`.
-- **Pydantic Deprecation Warnings**: The code is compatible with Pydantic v2+; warnings are cosmetic but can be silenced by updating usage to `model_dump()`.
+- **Import Errors**: Ensure the package is installed: `pip install lcra` or `uv pip install lcra`
 
----
+## Contributing
 
-## Project Structure
+Contributions are welcome! Please see [CONTRIBUTING.md](docs/contributing.md) for guidelines.
 
+## Documentation
+
+Full documentation is available at: <https://yourusername.github.io/lcra/>
+
+Or build locally:
+
+```bash
+mkdocs serve
 ```
-lcra/
-  main.py             # CLI entrypoint for API server and data extraction
-  api/
-    __init__.py         # FastAPI app and route definitions
-  lcra/
-    __init__.py       # Data models
-  scraper/
-    __init__.py       # LCRA data scraper logic
-  pyproject.toml      # Project dependencies
-  uv.lock             # uv dependency lock file
-  README.md           # This file
-```
-
----
-
-## Credits
-
-- [LCRA Hydromet](https://hydromet.lcra.org/) for public data
-- [FastAPI](https://fastapi.tiangolo.com/)
-- [httpx](https://www.python-httpx.org/)
-- [Pydantic](https://docs.pydantic.dev/)
-- [uv](https://github.com/astral-sh/uv)
-
----
 
 ## License
 
-This project is for educational and non-commercial use. Data is provided by LCRA and subject to their terms of use.
+MIT License - see LICENSE file for details.
+
+## Credits
+
+- [LCRA Hydromet](https://hydromet.lcra.org/) for providing public data
+- Built with [FastAPI](https://fastapi.tiangolo.com/), [Pydantic](https://docs.pydantic.dev/), and [httpx](https://www.python-httpx.org/)
+- Documentation powered by [MkDocs](https://www.mkdocs.org/) and [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/)
