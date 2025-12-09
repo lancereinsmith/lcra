@@ -21,12 +21,8 @@ def cli():
 @cli.command(name="get")
 @click.option("--report", is_flag=True, help="Extract the full flood operations report")
 @click.option("--lake-levels", is_flag=True, help="Extract current lake levels")
-@click.option(
-    "--river-conditions", is_flag=True, help="Extract current river conditions"
-)
-@click.option(
-    "--floodgate-operations", is_flag=True, help="Extract floodgate operations"
-)
+@click.option("--river-conditions", is_flag=True, help="Extract current river conditions")
+@click.option("--floodgate-operations", is_flag=True, help="Extract floodgate operations")
 @click.option(
     "--saveas",
     default=None,

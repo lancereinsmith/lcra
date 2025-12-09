@@ -8,7 +8,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 # ===============================================================================
 # Pydantic Models for Data Structures
@@ -46,8 +46,8 @@ class LakeLevel(BaseModel):
         None, description="Current gate operations or spillway status"
     )
 
-    class Config:
-        json_schema_extra = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "dam_lake_name": "Lake Travis at Mansfield Dam",
                 "measurement_time": "2025-01-15T10:30:00",
@@ -56,6 +56,7 @@ class LakeLevel(BaseModel):
                 "gate_operations": "Closed",
             }
         }
+    )
 
 
 class RiverCondition(BaseModel):
@@ -70,8 +71,8 @@ class RiverCondition(BaseModel):
     measurement_time: Optional[datetime] = Field(None, description="Time of measurement")
     data_source: Optional[DataSource] = Field(None, description="Source of the data")
 
-    class Config:
-        json_schema_extra = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "location": "Colorado River at Austin",
                 "current_stage": 4.2,
@@ -83,6 +84,7 @@ class RiverCondition(BaseModel):
                 "data_source": "USGS",
             }
         }
+    )
 
 
 class RiverForecast(BaseModel):
@@ -95,8 +97,8 @@ class RiverForecast(BaseModel):
     valid_time: Optional[datetime] = Field(None, description="Valid time for forecast")
     issued_by: Optional[DataSource] = Field(None, description="Agency that issued forecast")
 
-    class Config:
-        json_schema_extra = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "location": "Colorado River at Austin",
                 "forecast_stage": 4.8,
@@ -106,6 +108,7 @@ class RiverForecast(BaseModel):
                 "issued_by": "NWS",
             }
         }
+    )
 
 
 class HistoricalLakeData(BaseModel):
@@ -117,8 +120,8 @@ class HistoricalLakeData(BaseModel):
     discharge: Optional[float] = Field(None, description="Discharge rate (cfs)")
     storage: Optional[float] = Field(None, description="Storage volume (acre-feet)")
 
-    class Config:
-        json_schema_extra = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "lake_name": "Lake Travis",
                 "timestamp": "2025-01-15T10:30:00",
@@ -127,6 +130,7 @@ class HistoricalLakeData(BaseModel):
                 "storage": 1142000.0,
             }
         }
+    )
 
 
 class FloodgateOperation(BaseModel):
@@ -141,8 +145,8 @@ class FloodgateOperation(BaseModel):
         None, description="Current lake elevation (feet msl)"
     )
 
-    class Config:
-        json_schema_extra = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "dam_name": "Mansfield Dam",
                 "last_update": "2025-01-15T10:30:00",
@@ -152,6 +156,7 @@ class FloodgateOperation(BaseModel):
                 "current_elevation": 681.5,
             }
         }
+    )
 
 
 class FloodOperationsReport(BaseModel):
