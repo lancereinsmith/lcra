@@ -27,8 +27,12 @@ def cli():
 @cli.command(name="get")
 @click.option("--report", is_flag=True, help="Extract the full flood operations report")
 @click.option("--lake-levels", is_flag=True, help="Extract current lake levels")
-@click.option("--river-conditions", is_flag=True, help="Extract current river conditions")
-@click.option("--floodgate-operations", is_flag=True, help="Extract floodgate operations")
+@click.option(
+    "--river-conditions", is_flag=True, help="Extract current river conditions"
+)
+@click.option(
+    "--floodgate-operations", is_flag=True, help="Extract floodgate operations"
+)
 @click.option(
     "--saveas",
     default=None,
@@ -68,10 +72,7 @@ def get(report, lake_levels, river_conditions, floodgate_operations, saveas, sav
                 )
                 if saveas or save:
                     now = datetime.now().isoformat(timespec="seconds").replace(":", "-")
-                    if save or not saveas:
-                        filename = f"{label}_{now}"
-                    else:
-                        filename = saveas
+                    filename = f"{label}_{now}" if save or not saveas else saveas
                     out_path = os.path.join("reports", f"{filename}.json")
                     with open(out_path, "w") as f:
                         json.dump(data, f, indent=2, default=str)

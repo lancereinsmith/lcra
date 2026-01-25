@@ -18,7 +18,12 @@ def client():
 @pytest.fixture
 def mock_scraper_data():
     """Mock scraper data"""
-    from lcra import FloodgateOperation, FloodOperationsReport, LakeLevel, RiverCondition
+    from lcra import (
+        FloodgateOperation,
+        FloodOperationsReport,
+        LakeLevel,
+        RiverCondition,
+    )
 
     return {
         "lake_levels": [
@@ -90,7 +95,9 @@ class TestHealthEndpoint:
         mock_scraper = AsyncMock()
         mock_scraper.__aenter__ = AsyncMock(return_value=mock_scraper)
         mock_scraper.__aexit__ = AsyncMock(return_value=None)
-        mock_scraper.fetch_api_data = AsyncMock(side_effect=Exception("Connection error"))
+        mock_scraper.fetch_api_data = AsyncMock(
+            side_effect=Exception("Connection error")
+        )
         mock_scraper_class.return_value = mock_scraper
 
         response = client.get("/health")
@@ -109,7 +116,9 @@ class TestFloodReportEndpoint:
         mock_scraper = AsyncMock()
         mock_scraper.__aenter__ = AsyncMock(return_value=mock_scraper)
         mock_scraper.__aexit__ = AsyncMock(return_value=None)
-        mock_scraper.scrape_all_data = AsyncMock(return_value=mock_scraper_data["flood_report"])
+        mock_scraper.scrape_all_data = AsyncMock(
+            return_value=mock_scraper_data["flood_report"]
+        )
         mock_scraper_class.return_value = mock_scraper
 
         response = client.get("/flood-report")
@@ -128,7 +137,9 @@ class TestLakeLevelsEndpoint:
         mock_scraper = AsyncMock()
         mock_scraper.__aenter__ = AsyncMock(return_value=mock_scraper)
         mock_scraper.__aexit__ = AsyncMock(return_value=None)
-        mock_scraper.scrape_lake_levels = AsyncMock(return_value=mock_scraper_data["lake_levels"])
+        mock_scraper.scrape_lake_levels = AsyncMock(
+            return_value=mock_scraper_data["lake_levels"]
+        )
         mock_scraper_class.return_value = mock_scraper
 
         response = client.get("/lake-levels")
@@ -165,7 +176,9 @@ class TestFloodgateOperationsEndpoint:
     """Test cases for floodgate operations endpoint"""
 
     @patch("api.LCRAFloodDataScraper")
-    def test_get_floodgate_operations(self, mock_scraper_class, client, mock_scraper_data):
+    def test_get_floodgate_operations(
+        self, mock_scraper_class, client, mock_scraper_data
+    ):
         """Test getting floodgate operations"""
         mock_scraper = AsyncMock()
         mock_scraper.__aenter__ = AsyncMock(return_value=mock_scraper)

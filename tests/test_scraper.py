@@ -25,10 +25,14 @@ class TestLCRAFloodDataScraper:
         async with LCRAFloodDataScraper() as scraper:
             assert scraper.session is not None
         # Session should be closed after context exit
-        assert scraper.session is not None  # httpx client might still exist but be closed
+        assert (
+            scraper.session is not None
+        )  # httpx client might still exist but be closed
 
     @pytest.mark.asyncio
-    async def test_fetch_api_data_success(self, mock_scraper_session, mock_httpx_response):
+    async def test_fetch_api_data_success(
+        self, mock_scraper_session, mock_httpx_response
+    ):
         """Test successful API data fetch"""
         mock_httpx_response.json.return_value = {"test": "data"}
         result = await mock_scraper_session.fetch_api_data("test/endpoint")
@@ -55,7 +59,9 @@ class TestLCRAFloodDataScraper:
         assert result[0].head_elevation == 675.17
 
     @pytest.mark.asyncio
-    async def test_scrape_lake_levels_empty(self, mock_scraper_session, mock_httpx_response):
+    async def test_scrape_lake_levels_empty(
+        self, mock_scraper_session, mock_httpx_response
+    ):
         """Test scraping lake levels with empty response"""
         mock_httpx_response.json.return_value = {"records": []}
         result = await mock_scraper_session.scrape_lake_levels()
@@ -75,7 +81,10 @@ class TestLCRAFloodDataScraper:
 
     @pytest.mark.asyncio
     async def test_scrape_floodgate_operations(
-        self, mock_scraper_session, sample_floodgate_operations_data, mock_httpx_response
+        self,
+        mock_scraper_session,
+        sample_floodgate_operations_data,
+        mock_httpx_response,
     ):
         """Test scraping floodgate operations"""
         mock_httpx_response.json.return_value = sample_floodgate_operations_data
@@ -92,11 +101,15 @@ class TestLCRAFloodDataScraper:
         """Test getting narrative summary"""
         mock_httpx_response.json.return_value = sample_narrative_summary_data
         last_update, narrative = await mock_scraper_session.get_narrative_summary()
-        assert narrative == "Current conditions are normal. No flood operations expected."
+        assert (
+            narrative == "Current conditions are normal. No flood operations expected."
+        )
         assert isinstance(last_update, datetime)
 
     @pytest.mark.asyncio
-    async def test_get_narrative_summary_empty(self, mock_scraper_session, mock_httpx_response):
+    async def test_get_narrative_summary_empty(
+        self, mock_scraper_session, mock_httpx_response
+    ):
         """Test getting narrative summary with empty response"""
         mock_httpx_response.json.return_value = []
         last_update, narrative = await mock_scraper_session.get_narrative_summary()

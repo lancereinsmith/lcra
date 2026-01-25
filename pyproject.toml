@@ -50,34 +50,48 @@ packages = ["src/lcra", "src/scraper", "src/api"]
 dev = [
     "pytest>=9.0.2",
     "pytest-asyncio>=1.3.0",
-    "pytest-cov>=4.1.0",
-    "pytest-mock>=3.12.0",
-    "ruff>=0.1.0",
-    "ty>=0.0.12",
-    "rumdl>=0.0.220",
+    "pytest-cov>=7.0.0",
+    "pytest-mock>=3.15.1",
+    "ruff>=0.14.14",
+    "ty>=0.0.13",
+    "rumdl>=0.1.0",
 ]
 docs = [
-    "mkdocs>=1.5.0",
-    "mkdocs-material>=9.4.0",
-    "mkdocstrings[python]>=1.0.0",
+    "mkdocs>=1.6.1",
+    "mkdocs-material>=9.7.1",
+    "mkdocstrings[python]>=1.0.2",
 ]
 
 [tool.uv]
 default-groups = ["dev", "docs"]
 
+# ——— Ruff: lint and format (replaces black, isort, flake8) ———
 [tool.ruff]
-line-length = 100
+line-length = 88
 target-version = "py312"
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "N", "W", "UP"]
+select = ["E", "F", "I", "N", "W", "UP", "B", "C4", "SIM"]
 ignore = ["E501"]
 
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+# ——— ty: type checking (replaces mypy, pyright) ———
 [tool.ty.environment]
 python-version = "3.12"
 
 [tool.ty.src]
 exclude = ["tests"]
+
+# ——— rumdl: markdown format (mkdocs flavor) ———
+# Global options live under [tool.rumdl]; [tool.rumdl.global] is for .rumdl.toml only.
+[tool.rumdl]
+flavor = "mkdocs"
+respect-gitignore = true
+disable = ["MD007", "MD013", "MD031", "MD033", "MD046"]
+exclude = [".git", ".github", "node_modules", "vendor", "dist", "build", "CHANGELOG.md", "LICENSE.md"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

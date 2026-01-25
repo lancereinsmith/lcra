@@ -55,15 +55,17 @@ class LCRAFloodDataScraper:
             logger.error(f"HTTP error {e.response.status_code} from {url}: {e}")
             raise HTTPException(
                 status_code=503, detail=f"Failed to fetch data from LCRA API: {str(e)}"
-            )
+            ) from e
         except httpx.RequestError as e:
             logger.error(f"Request error fetching {url}: {e}")
             raise HTTPException(
                 status_code=503, detail=f"Failed to fetch data from LCRA API: {str(e)}"
-            )
+            ) from e
         except Exception as e:
             logger.error(f"Unexpected error parsing LCRA API data from {url}: {e}")
-            raise HTTPException(status_code=500, detail=f"Error parsing LCRA API data: {str(e)}")
+            raise HTTPException(
+                status_code=500, detail=f"Error parsing LCRA API data: {str(e)}"
+            ) from e
 
     async def scrape_lake_levels(self) -> list[LakeLevel]:
         """Extract current lake levels from API"""
@@ -175,12 +177,18 @@ class LCRAFloodDataScraper:
                     else:
                         date_str = f"{match.group(1)} {match.group(2)}"
                         if "/" in match.group(1):
-                            if ":" in match.group(2) and len(match.group(2).split(":")) == 3:
+                            if (
+                                ":" in match.group(2)
+                                and len(match.group(2).split(":")) == 3
+                            ):
                                 return datetime.strptime(date_str, "%m/%d/%Y %H:%M:%S")
                             else:
                                 return datetime.strptime(date_str, "%m/%d/%Y %H:%M")
                         else:
-                            if ":" in match.group(2) and len(match.group(2).split(":")) == 3:
+                            if (
+                                ":" in match.group(2)
+                                and len(match.group(2).split(":")) == 3
+                            ):
                                 return datetime.strptime(date_str, "%Y-%m-%d %H:%M:%S")
                             else:
                                 return datetime.strptime(date_str, "%Y-%m-%d %H:%M")
