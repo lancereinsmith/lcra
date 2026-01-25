@@ -1,9 +1,9 @@
 [project]
 name = "lcra"
-version = "0.2.1"
+version = "0.3.0"
 description = "A Python library and CLI tool for extracting flood status, lake levels, river conditions, and floodgate operations from the LCRA Hydromet system"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 license = {text = "MIT"}
 authors = [
     {name = "LCRA Contributors"}
@@ -14,19 +14,19 @@ classifiers = [
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Scientific/Engineering",
     "Topic :: Utilities",
 ]
 dependencies = [
-    "fastapi>=0.104.0",
-    "uvicorn[standard]>=0.24.0",
-    "httpx>=0.25.0",
-    "pydantic>=2.0.0",
+    "fastapi>=0.128.0",
+    "uvicorn[standard]>=0.40.0",
+    "httpx>=0.28.1",
+    "pydantic>=2.12.5",
     "click>=8.3.1",
-    "rich>=14.2.0",
+    "rich>=14.3.1",
 ]
 
 [project.urls]
@@ -52,9 +52,9 @@ dev = [
     "pytest-asyncio>=1.3.0",
     "pytest-cov>=4.1.0",
     "pytest-mock>=3.12.0",
-    "black>=23.0.0",
     "ruff>=0.1.0",
-    "mypy>=1.7.0",
+    "ty>=0.0.12",
+    "rumdl>=0.0.220",
 ]
 docs = [
     "mkdocs>=1.5.0",
@@ -62,17 +62,22 @@ docs = [
     "mkdocstrings[python]>=1.0.0",
 ]
 
-[tool.black]
-line-length = 100
-target-version = ['py310', 'py311', 'py312']
+[tool.uv]
+default-groups = ["dev", "docs"]
 
 [tool.ruff]
 line-length = 100
-target-version = "py310"
+target-version = "py312"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "W", "UP"]
 ignore = ["E501"]
+
+[tool.ty.environment]
+python-version = "3.12"
+
+[tool.ty.src]
+exclude = ["tests"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
